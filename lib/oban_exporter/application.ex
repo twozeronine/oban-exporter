@@ -15,7 +15,8 @@ defmodule ObanExporter.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: ObanExporter.PubSub},
       # Start the Endpoint (http/https)
-      ObanExporterWeb.Endpoint
+      ObanExporterWeb.Endpoint,
+      ObanExporter.PromEx
       # Start a worker by calling: ObanExporter.Worker.start_link(arg)
       # {ObanExporter.Worker, arg}
     ]

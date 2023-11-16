@@ -29,6 +29,8 @@ defmodule ObanExporterWeb.Endpoint do
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :oban_exporter
   end
 
+  plug PromEx.Plug, prom_ex_module: ObanExporter.PromEx
+
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
