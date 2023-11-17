@@ -10,7 +10,8 @@ defmodule ObanExporter.MixProject do
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      releases: releases()
     ]
   end
 
@@ -58,6 +59,15 @@ defmodule ObanExporter.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+    ]
+  end
+
+  defp releases() do
+    [
+      oban_exporter: [
+        include_executables_for: [:unix],
+        applications: [runtime_tools: :permanent]
+      ]
     ]
   end
 end

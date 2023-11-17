@@ -1,19 +1,25 @@
 # ObanExporter
 
-To start your Phoenix server:
+## Release
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## build
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+```
+ docker build --build-arg _MIX_ENV=prod --build-arg _RELEASE_NAME=oban_exporter -t oban_exporter .
+```
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## run
 
-## Learn more
+### Requirement ENV
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+- DATABASE_URL : Your database url
+- PGPOOL_SIZE : PGPOOL_SIZE
+- PORT : PORT
+
+```
+docker run -it -p 8080:8080 --e DATABASE_URL=${USER_DATABASE_URL} -e PGPOOL_SIZE=${YOUR_PG_POOL_SIZE}  ./.env oban_exporter
+
+or
+
+docker run -it -p 8080:8080 --env-file ./.env oban_exporter
+```
