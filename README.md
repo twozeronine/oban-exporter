@@ -5,7 +5,7 @@
 ## build
 
 ```
- docker build --build-arg _MIX_ENV=prod --build-arg _RELEASE_NAME=oban_exporter -t oban_exporter .
+ docker build --build-arg _MIX_ENV=prod -t oban_exporter .
 ```
 
 ## run
