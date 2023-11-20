@@ -16,7 +16,16 @@ RUN mv _build/${_MIX_ENV}/rel/oban_exporter /opt/release
 RUN mv /opt/release/bin/oban_exporter /opt/release/bin/app
 
 FROM ubuntu:jammy-20230126 as runner
-RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales && apt-get clean && rm -f /var/lib/apt/lists/*_* && locale-gen en_US.UTF-8 
+RUN apt-get update -y \
+    && apt-get -y install --no-install-recommends \ 
+    libstdc++6 \ 
+    openssl \ 
+    libncurses5 \ 
+    locales \ 
+    # Clean UP
+    && apt-get -y autoremove \
+    && apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/*_* && locale-gen en_US.UTF-8 
 ENV LANG=C.UTF-8
 WORKDIR /opt/release
 COPY --from=builder /opt/release .
