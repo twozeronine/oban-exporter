@@ -10,12 +10,10 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
   @oban_job_event [:oban, :job, :count]
 
   @impl true
-  def polling_metrics(opts) do
-    poll_rate = Keyword.get(opts, :poll_rate, @default_poll_rate)
-
+  def polling_metrics(_opts) do
     Polling.build(
       :oban_job_count_metrics,
-      poll_rate,
+      get_user_set_poll_rate(),
       {__MODULE__, :excute_oban_job_counts, []},
       [
         last_value(
@@ -39,5 +37,9 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
     |> Enum.each(fn {queue, state, count} ->
       :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
     end)
+  end
+
+  defp get_user_set_poll_rate() do
+    Application.get_env(:oban_exporter, __MODULE__, @default_poll_rate)[:poll_rate]
   end
 end

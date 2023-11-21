@@ -1,9 +1,5 @@
 import Config
 
-if System.get_env("PHX_SERVER") do
-  config :oban_exporter, ObanExporterWeb.Endpoint, server: true
-end
-
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -12,6 +8,10 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
+  secret_key_base =
+    System.get_env("SECRET_KEY_BASE") ||
+      "yRVrJDw01zzHx601zl5s4Li0Lr/sMx/LTQEjRDwt3tCE2ueCtO7nNL4C/pYZcDoK"
+
   config :oban_exporter, ObanExporter.Repo,
     url: database_url,
     pool_size: String.to_integer(System.get_env("PGPOOL_SIZE") || "10")
@@ -19,9 +19,12 @@ if config_env() == :prod do
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "8080")
 
+  config :oban_exporter, ObanExporter.Plug.ObanCustomMetricPlug,
+    poll_rate: System.get_env("POLL_RATE") |> String.to_integer()
+
   config :oban_exporter, ObanExporterWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
     http: [port: port],
-    secret_key_base: "yRVrJDw01zzHx601zl5s4Li0Lr/sMx/LTQEjRDwt3tCE2ueCtO7nNL4C/pYZcDoK",
+    secret_key_base: secret_key_base,
     server: true
 end
