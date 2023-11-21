@@ -23,6 +23,5 @@ if config_env() == :prod do
     url: [host: host, port: 443, scheme: "https"],
     http: [port: port],
     secret_key_base: "yRVrJDw01zzHx601zl5s4Li0Lr/sMx/LTQEjRDwt3tCE2ueCtO7nNL4C/pYZcDoK",
-    cache_static_manifest: "priv/static/cache_manifest.json",
     server: true
 end

@@ -8,7 +8,6 @@ COPY . .
 RUN mix local.rebar --force
 RUN mix local.hex --force
 RUN mix deps.get
-RUN mix phx.digest
 
 # Create a Mix.Release of the application
 RUN MIX_ENV=${_MIX_ENV} mix release
