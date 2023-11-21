@@ -5,7 +5,6 @@ ARG _MIX_ENV
 RUN apt-get update
 WORKDIR /src
 COPY . .
-RUN mix local.rebar --force
 RUN mix local.hex --force
 RUN mix deps.get
 
