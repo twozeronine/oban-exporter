@@ -1,5 +1,5 @@
-ARG UBUNTU_VERSION=ubuntu-jammy-20230126
-FROM hexpm/elixir:1.15.6-erlang-26.1.1-${UBUNTU_VERSION} as builder
+ARG UBUNTU_VERSION=jammy-20230126
+FROM hexpm/elixir:1.15.6-erlang-26.1.1-ubuntu-${UBUNTU_VERSION} as builder
 ARG _MIX_ENV
 
 RUN apt-get update
@@ -13,7 +13,7 @@ RUN MIX_ENV=${_MIX_ENV} mix release
 RUN mv _build/${_MIX_ENV}/rel/oban_exporter /opt/release
 RUN mv /opt/release/bin/oban_exporter /opt/release/bin/app
 
-FROM ubuntu:jammy-20230126 as runner
+FROM ubuntu:${UBUNTU_VERSION} as runner
 RUN apt-get update -y \
     && apt-get -y install --no-install-recommends \ 
     locales \
