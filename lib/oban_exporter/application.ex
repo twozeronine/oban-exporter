@@ -12,9 +12,6 @@ defmodule ObanExporter.Application do
       ObanExporter.Repo,
       ObanExporter.PromEx,
       # Start the Telemetry supervisor
-      ObanExporterWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: ObanExporter.PubSub},
       # Start the Endpoint (http/https)
       ObanExporterWeb.Endpoint
       # Start a worker by calling: ObanExporter.Worker.start_link(arg)

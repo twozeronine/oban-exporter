@@ -14,7 +14,6 @@ defmodule ObanExporterWeb.Endpoint do
   plug PromEx.Plug, prom_ex_module: ObanExporter.PromEx
 
   plug Plug.RequestId
-  plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

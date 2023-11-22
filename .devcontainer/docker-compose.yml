@@ -9,10 +9,3 @@ services:
     network_mode: service:postgres
     volumes:
       - ..:/home/vscode/workspace:cached
-  postgres:
-    image: postgres:13.5-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "25432:5432"
