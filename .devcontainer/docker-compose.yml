@@ -6,6 +6,5 @@ services:
     init: true
     privileged: true
     command: sleep infinity
-    network_mode: service:postgres
     volumes:
       - ..:/home/vscode/workspace:cached

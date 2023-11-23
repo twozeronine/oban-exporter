@@ -30,8 +30,8 @@ RUN DEBIAN_FRONTEND=nointeractive \
     # Clean Up
     && apt-get -y autoremove \ 
     && apt-get -y clean \ 
-    && rm -rf /var/lib/apt/lists/* /tmp/* \
+    && rm -rf /var/lib/apt/lists/* /tmp/*
     # Phoenix
+    RUN su vscode -c "mix local.hex --force \ 
     && mix local.rebar --force \
-    && mix local.hex --force \
-    && mix archive.install hex phx_new --force ${PHOENIX_VERSION}
+    && mix archive.install hex phx_new --force $PHOENIX_VERSION" 
