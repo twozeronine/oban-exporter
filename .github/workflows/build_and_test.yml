@@ -1,0 +1,20 @@
+name: oban_exporter Build and Test
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    container: 
+      image: gchr.io/twozeronine/docker-images/dev-containers/oban-export/dev:latest
+    env:
+      MIX_ENV: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - run: mix deps.get
+      - run: mix compile --all-warnings --warnings-as-erros
+      - run: mix test
