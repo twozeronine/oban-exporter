@@ -8,7 +8,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     container: 
-      image: gchr.io/twozeronine/docker-images/dev-containers/oban-export/dev:latest
+      image: ghcr.io/twozeronine/docker-images/dev-containers/oban-exporter/dev:latest
     env:
       MIX_ENV: test
 
