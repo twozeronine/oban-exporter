@@ -1,7 +1,4 @@
-ARG ELIXIR_VERSION=1.15.6
-ARG ERLANG_VERSION=26.1.1
-ARG UBUNTU_VERSION=jammy-20230126
-FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${ERLANG_VERSION}-ubuntu-${UBUNTU_VERSION}  as builder
+FROM ghcr.io/twozeronine/docker-images/dev-containers/oban-exporter/dev:latest as builder
 ARG _MIX_ENV
 
 RUN apt-get update
@@ -15,7 +12,7 @@ RUN MIX_ENV=${_MIX_ENV} mix release
 RUN mv _build/${_MIX_ENV}/rel/oban_exporter /opt/release
 RUN mv /opt/release/bin/oban_exporter /opt/release/bin/app
 
-FROM ubuntu:${UBUNTU_VERSION} as runner
+FROM ghcr.io/twozeronine/docker-images/dev-containers/oban-exporter/run:latest as runner
 RUN apt-get update -y \
     && apt-get -y install --no-install-recommends \ 
     locales \

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   oban-exporter-dev-container:
-    build: .
+    image: ghcr.io/twozeronine/docker-images/dev-containers/oban-exporter/dev:latest
     init: true
     privileged: true
     command: sleep infinity
