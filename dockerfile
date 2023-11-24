@@ -13,6 +13,7 @@ RUN mv _build/${_MIX_ENV}/rel/oban_exporter /opt/release
 RUN mv /opt/release/bin/oban_exporter /opt/release/bin/app
 
 FROM ghcr.io/twozeronine/docker-images/dev-containers/oban-exporter/run:latest as runner
+LABEL org.opencontainers.image.source=https://github.com/twozeronine/oban_exporter
 RUN apt-get update -y \
     && apt-get -y install --no-install-recommends \ 
     locales \
