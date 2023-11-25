@@ -32,6 +32,6 @@ jobs:
           platforms:
             linux/amd64
           tags: |
-            ghcr.io/${{ github.repository }}/oban_export:latest
-            ghcr.io/${{ github.repository }}/oban_export:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
           build-args: _MIX_ENV=prod
