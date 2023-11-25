@@ -34,3 +34,4 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}/oban_export:latest
             ghcr.io/${{ github.repository }}/oban_export:${{ github.sha }}
+          build-args: _MIX_ENV=prod
