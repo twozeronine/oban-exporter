@@ -14,15 +14,8 @@ if config_env() == :prod do
 
   config :oban_exporter, ObanExporter.Repo,
     url: database_url,
-    pool_size: String.to_integer(System.get_env("PGPOOL_SIZE") || "10")
-
-  case System.get_env("OBAN_ADAPTER") || "postgres" do
-    "pg_bouncer" ->
-      config :oban_exporter, ObanExporter.Repo, prepare: :unnamed
-
-    _ ->
-      :ok
-  end
+    pool_size: String.to_integer(System.get_env("PGPOOL_SIZE") || "10"),
+    prepare: :unnamed
 
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "8080")
