@@ -23,9 +23,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Wait for PostgreSQL to start
-        run: dockerize -wait tcp://localhost:5432 -timeout 1m
-      
       - run: mix deps.get
       - run: mix compile --all-warnings --warnings-as-erros
       - run: mix test
