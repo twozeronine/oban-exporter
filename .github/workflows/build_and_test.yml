@@ -13,7 +13,6 @@ jobs:
       postgres:
         image: postgres:13.5-alpine
         env:
-          PGPORT: 5432
           POSTGRES_PASSWORD: postgres
         ports:
           ["5432:5432"]
