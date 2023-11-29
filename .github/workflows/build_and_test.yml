@@ -9,12 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       image: ghcr.io/twozeronine/docker-images/dev-containers/oban-exporter/dev:0828bff5cf1c7649b861e7931f557d9f6718339c
-    env:
-      MIX_ENV: test
+
+    services:
+      postgres:
+        image: postgres:13.5-alpine
+        env:
+          PGPORT: 5432
+          POSTGRES_PASSWORD: postgres
+        ports:
+          ["5432:5432"]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - run: mix deps.get
       - run: mix compile --all-warnings --warnings-as-erros
       - run: mix test
