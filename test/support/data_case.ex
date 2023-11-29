@@ -16,6 +16,8 @@ defmodule ObanExporter.DataCase do
 
   use ExUnit.CaseTemplate
 
+  @oban_job_event [:oban, :job, :count]
+
   using do
     quote do
       alias ObanExporter.Repo
@@ -29,6 +31,18 @@ defmodule ObanExporter.DataCase do
 
   setup tags do
     ObanExporter.DataCase.setup_sandbox(tags)
+
+    :ok =
+      :telemetry.attach(
+        "test_handler",
+        @oban_job_event,
+        fn name, measurements, metadata, _config ->
+          :ok
+          send(self(), {:telemetry_event, name, measurements, metadata})
+        end,
+        nil
+      )
+
     :ok
   end
 

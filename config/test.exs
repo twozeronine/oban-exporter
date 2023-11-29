@@ -21,7 +21,9 @@ config :oban_exporter, ObanExporterWeb.Endpoint,
   server: false
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :warning
+
+config :oban_exporter, ObanExporter.Plug.ObanCustomMetricPlug, poll_rate: 5_000
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
