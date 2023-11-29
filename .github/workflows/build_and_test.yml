@@ -13,7 +13,9 @@ jobs:
       postgres:
         image: postgres:13.5-alpine
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST_AUTH_METHOD: 'trust'
         ports:
           ["5432:5432"]
 
@@ -28,4 +30,4 @@ jobs:
       - run: mix local.rebar --force && mix local.hex --force
       - run: mix deps.get
       - run: mix compile --all-warnings --warnings-as-erros
-      - run: MIX_ENV=test mix test
+      - run: mix test
