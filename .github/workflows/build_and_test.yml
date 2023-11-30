@@ -33,4 +33,5 @@ jobs:
       - run: mix local.rebar --force && mix local.hex --force
       - run: mix deps.get
       - run: mix compile --all-warnings --warnings-as-erros
+      - run: mix format --check-formatted
       - run: mix test
