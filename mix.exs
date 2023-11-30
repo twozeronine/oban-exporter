@@ -61,7 +61,6 @@ defmodule ObanExporter.MixProject do
         "ecto.drop",
         "ecto.create --quiet",
         "ecto.migrate",
-        "run priv/repo/seeds.exs",
         "test"
       ]
     ]

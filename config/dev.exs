@@ -8,7 +8,7 @@ config :oban_exporter, ObanExporter.Repo,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 5,
-  port: 35432
+  port: 5432
 
 config :oban_exporter, ObanExporterWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -17,6 +17,8 @@ config :oban_exporter, ObanExporterWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "So5QmaOGS4/lBzYqE7ZtFsCH7eg3x+7lRial4EIJ8o2zHgwBcjplQoBy2+LWtMjT",
   watchers: []
+
+config :oban_exporter, ObanExporter.Plug.ObanCustomMetricPlug, poll_rate: 5_000
 
 config :logger, :console, format: "[$level] $message\n"
 

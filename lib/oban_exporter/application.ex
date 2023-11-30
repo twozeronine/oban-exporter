@@ -7,16 +7,20 @@ defmodule ObanExporter.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      # Start the Ecto repository
-      ObanExporter.Repo,
-      ObanExporter.PromEx,
-      # Start the Telemetry supervisor
-      # Start the Endpoint (http/https)
-      ObanExporterWeb.Endpoint
-      # Start a worker by calling: ObanExporter.Worker.start_link(arg)
-      # {ObanExporter.Worker, arg}
-    ]
+    children =
+      [
+        # Start the Ecto repository
+        ObanExporter.Repo,
+        # Start the Telemetry supervisor
+        # Start the Endpoint (http/https)
+        ObanExporterWeb.Endpoint
+        # Start a worker by calling: ObanExporter.Worker.start_link(arg)
+        # {ObanExporter.Worker, arg}
+      ] ++
+        case Mix.env() != :test do
+          true -> [ObanExporter.PromEx]
+          _ -> []
+        end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
