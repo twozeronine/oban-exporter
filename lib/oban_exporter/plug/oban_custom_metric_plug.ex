@@ -2,6 +2,7 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
   use PromEx.Plugin
 
   import Ecto.Query
+  require Logger
 
   alias ObanExporter.Repo
 
@@ -28,15 +29,31 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
   end
 
   def excute_oban_job_counts() do
-    from(
-      j in Oban.Job,
-      group_by: [j.queue, j.state],
-      select: {j.queue, j.state, count(j.id)}
-    )
-    |> Repo.all()
-    |> Enum.each(fn {queue, state, count} ->
-      :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
-    end)
+    case exists_oban_job_table?() do
+      true ->
+        from(
+          j in Oban.Job,
+          group_by: [j.queue, j.state],
+          select: {j.queue, j.state, count(j.id)}
+        )
+        |> Repo.all()
+        |> Enum.each(fn {queue, state, count} ->
+          :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
+        end)
+
+      false ->
+        Logger.error("table \"oban_jobs\" does not exist")
+    end
+  end
+
+  def exists_oban_job_table?() do
+    {:ok, query_result} =
+      ObanExporter.Repo.query(
+        "SELECT table_name FROM information_schema.tables WHERE table_name = 'oban_jobs' AND table_schema = 'public'",
+        []
+      )
+
+    not Enum.empty?(query_result.rows)
   end
 
   defp get_user_set_poll_rate() do
