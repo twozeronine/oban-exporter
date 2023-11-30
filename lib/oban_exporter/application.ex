@@ -11,20 +11,23 @@ defmodule ObanExporter.Application do
       [
         # Start the Ecto repository
         ObanExporter.Repo,
+        ObanExporter.PromEx,
         # Start the Telemetry supervisor
         # Start the Endpoint (http/https)
         ObanExporterWeb.Endpoint
         # Start a worker by calling: ObanExporter.Worker.start_link(arg)
         # {ObanExporter.Worker, arg}
-      ] ++
-        case Mix.env() != :test do
-          true -> [ObanExporter.PromEx]
-          _ -> []
-        end
+      ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: ObanExporter.Supervisor]
+    opts = [
+      strategy: :one_for_one,
+      name: ObanExporter.Supervisor,
+      max_seonds: 1,
+      max_restarts: 1_000_000_000
+    ]
+
     Supervisor.start_link(children, opts)
   end
 

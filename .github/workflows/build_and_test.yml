@@ -34,4 +34,6 @@ jobs:
       - run: mix deps.get
       - run: mix compile --all-warnings --warnings-as-erros
       - run: mix format --check-formatted
+      - run: mix ecto.reset
+      - run: mix seed
       - run: mix test
