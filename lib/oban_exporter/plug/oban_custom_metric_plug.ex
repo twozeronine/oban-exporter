@@ -10,6 +10,11 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
 
   @oban_job_event [:oban, :job, :count]
 
+  @states Oban.Job.states()
+          |> Map.new(fn state ->
+            {state, 0}
+          end)
+
   @impl true
   def polling_metrics(_opts) do
     Polling.build(
@@ -31,27 +36,22 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
   def excute_oban_job_counts() do
     case exists_oban_job_table?() do
       true ->
-        now_jobs =
-          from(
-            j in Oban.Job,
-            group_by: [j.queue, j.state],
-            select: %{queue: j.queue, state: j.state, count: count(j.id)}
-          )
-          |> Repo.all()
-
-        now_jobs
-        |> Enum.uniq_by(fn job -> job.queue end)
-        |> Enum.map(& &1.queue)
-        |> Enum.flat_map(fn job ->
-          Enum.map(Oban.Job.states(), fn state ->
-            %{queue: job, state: Atom.to_string(state), count: 0}
+        from(
+          j in Oban.Job,
+          group_by: [j.queue, j.state],
+          select: %{queue: j.queue, state: j.state, count: count(j.id)}
+        )
+        |> Repo.all()
+        |> Enum.reduce(%{}, fn %{queue: queue, state: state, count: count}, acc ->
+          Map.put_new(acc, queue, @states)
+          |> Map.update!(queue, fn states ->
+            %{states | (state |> String.to_existing_atom()) => count}
           end)
         end)
-        |> Enum.map(fn job ->
-          Enum.find(now_jobs, &(&1.state == job.state and &1.queue == job.queue)) || job
-        end)
-        |> Enum.each(fn %{queue: queue, state: state, count: count} ->
-          :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
+        |> Enum.each(fn {queue, states} ->
+          Enum.each(states, fn {state, count} ->
+            :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
+          end)
         end)
 
       false ->
