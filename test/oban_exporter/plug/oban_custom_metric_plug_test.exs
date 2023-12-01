@@ -16,21 +16,27 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlugTest do
       assert_receive {:telemetry_event, [:oban, :job, :count], %{count: _},
                       %{state: _, queue: "default"}},
                      1000
+
       assert_receive {:telemetry_event, [:oban, :job, :count], %{count: _},
                       %{state: _, queue: "default"}},
                      1000
+
       assert_receive {:telemetry_event, [:oban, :job, :count], %{count: _},
                       %{state: _, queue: "default"}},
                      1000
+
       assert_receive {:telemetry_event, [:oban, :job, :count], %{count: _},
                       %{state: _, queue: "default"}},
                      1000
+
       assert_receive {:telemetry_event, [:oban, :job, :count], %{count: _},
                       %{state: _, queue: "default"}},
                      1000
+
       assert_receive {:telemetry_event, [:oban, :job, :count], %{count: _},
                       %{state: _, queue: "default"}},
                      1000
+
       assert_receive {:telemetry_event, [:oban, :job, :count], %{count: _},
                       %{state: _, queue: "default"}},
                      1000
