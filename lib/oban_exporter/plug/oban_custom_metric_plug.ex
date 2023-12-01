@@ -31,13 +31,26 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
   def excute_oban_job_counts() do
     case exists_oban_job_table?() do
       true ->
-        from(
-          j in Oban.Job,
-          group_by: [j.queue, j.state],
-          select: {j.queue, j.state, count(j.id)}
-        )
-        |> Repo.all()
-        |> Enum.each(fn {queue, state, count} ->
+        now_jobs =
+          from(
+            j in Oban.Job,
+            group_by: [j.queue, j.state],
+            select: %{queue: j.queue, state: j.state, count: count(j.id)}
+          )
+          |> Repo.all()
+
+        now_jobs
+        |> Enum.uniq_by(fn job -> job.queue end)
+        |> Enum.map(& &1.queue)
+        |> Enum.flat_map(fn job ->
+          Enum.map(Oban.Job.states(), fn state ->
+            %{queue: job, state: Atom.to_string(state), count: 0}
+          end)
+        end)
+        |> Enum.map(fn job ->
+          Enum.find(now_jobs, &(&1.state == job.state and &1.queue == job.queue)) || job
+        end)
+        |> Enum.each(fn %{queue: queue, state: state, count: count} ->
           :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
         end)
 
