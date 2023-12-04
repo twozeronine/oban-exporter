@@ -7,14 +7,16 @@
 </p>
 
 
-<center>
-
-  ![ci](https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml/badge.svg)
-  ![image build and push](https://github.com/twozeronine/oban-exporter/actions/workflows/image_build_and_push.yml/badge.svg)
-</center>
-
-
 <p align="center">
+  <a href="https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml/badge.svg">
+    <img alt="Build and Test" src="https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml/badge.svg">
+  </a>
+  <a href="https://github.com/twozeronine/oban-exporter/actions/workflows/image_build_and_push.yml/badge.svg">
+    <img alt="Image build and push" src="https://github.com/twozeronine/oban-exporter/actions/workflows/image_build_and_push.yml/badge.svg">
+  </a>
+</p>
+
+<center>
 
 ### ⚙️ Requirement ENV 
 
@@ -26,7 +28,7 @@
 | POLL_RATE |  5000 |
 | SECRET_KEY_BASE | optional |
 
-</p>
+</center>
 
 ----
 
