@@ -5,7 +5,7 @@
 ## build
 
 ```
- docker build --build-arg _MIX_ENV=prod -t oban_exporter .
+ docker build --build-arg _MIX_ENV=prod -t oban-exporter .
 ```
 
 ## run
@@ -33,9 +33,9 @@
 
 
 ```
-docker run -it -p 8080:8080 --e DATABASE_URL=${USER_DATABASE_URL} ./.env oban_exporter
+docker run -it -p 8080:8080 --e DATABASE_URL=${USER_DATABASE_URL} ./.env oban-exporter
 
 or
 
-docker run -it -p 8080:8080 --env-file ./.env oban_exporter
+docker run -it -p 8080:8080 --env-file ./.env oban-exporter
 ```

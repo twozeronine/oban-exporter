@@ -11,7 +11,7 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlugTest do
     end
 
     test "excute_oban_job_counts" do
-      assert :ok == ObanCustomMetricPlug.execute()
+      assert :ok == ObanCustomMetricPlug.start()
 
       assert_receive {:telemetry_event, [:oban, :job, :count], %{count: _},
                       %{state: _, queue: "default"}},

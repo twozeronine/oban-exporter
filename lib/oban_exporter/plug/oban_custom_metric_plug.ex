@@ -36,7 +36,7 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
     end
   end
 
-  def execute() do
+  defp execute() do
     for state <- Job.states() do
       for queue <- Repo.all(from j in Job, group_by: [j.queue], select: j.queue) do
         count =
