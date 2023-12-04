@@ -50,7 +50,7 @@ docker run -it -p 8080:8080 --e DATABASE_URL=${USER_DATABASE_URL} ./.env oban-ex
 
 ### Features
 
-After running the image, you can access ```${Oban_EXPORTER_ENDPOINT}/metrics``` to see the metrics of the Oban job.
+After running the image, you can access ```${OBAN_EXPORTER_ENDPOINT}/metrics``` to see the metrics of the Oban job.
 
 Example Image)
 
