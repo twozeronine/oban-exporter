@@ -1,15 +1,20 @@
-<center>
+<p align="center">
  <img alt="Oban Exporter logo" src="https://github.com/twozeronine/oban-exporter/assets/67315288/87c76f06-d6e9-4cf0-820f-45286feeac3a" width="240">
+</p>
 
+<p align="center">
  Exporting Oban work Metrics as Prometheus Metrics.
+</p>
 
+
+<center>
 
   ![ci](https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml/badge.svg)
   ![image build and push](https://github.com/twozeronine/oban-exporter/actions/workflows/image_build_and_push.yml/badge.svg)
-
 </center>
 
-<center>
+
+<p align="center">
 
 ### ⚙️ Requirement ENV 
 
@@ -21,7 +26,7 @@
 | POLL_RATE |  5000 |
 | SECRET_KEY_BASE | optional |
 
-</center>
+</p>
 
 ----
 
