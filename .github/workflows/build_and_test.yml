@@ -3,6 +3,8 @@ name: oban_exporter Build and Test
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - '*.md'
 
 env:
   MIX_ENV: test

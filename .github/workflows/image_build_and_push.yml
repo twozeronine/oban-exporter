@@ -3,6 +3,8 @@ name: oban_exporter Image Build and Push
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - '*.md'
 
 jobs:
   image-build-and-push:
