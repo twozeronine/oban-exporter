@@ -1,16 +1,17 @@
-# ObanExporter
+<center>
+ <img alt="Oban Exporter logo" src="https://github.com/twozeronine/oban-exporter/assets/67315288/87c76f06-d6e9-4cf0-820f-45286feeac3a" width="240">
 
-## Release
+ Exporting Oban work Metrics as Prometheus Metrics.
 
-## build
 
-```
- docker build --build-arg _MIX_ENV=prod -t oban-exporter .
-```
+  ![ci](https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml/badge.svg)
+  ![image build and push](https://github.com/twozeronine/oban-exporter/actions/workflows/image_build_and_push.yml/badge.svg)
 
-## run
+</center>
 
-### Requirement ENV
+<center>
+
+### ⚙️ Requirement ENV 
 
 | env |  default value | 
 |  -  |       -        |
@@ -19,6 +20,10 @@
 | PORT |  "8080" |
 | POLL_RATE |  5000 |
 | SECRET_KEY_BASE | optional |
+
+</center>
+
+----
 
 - DATABASE_URL : The URL specifying the database connection for use with the Elixir library Oban. This URL typically includes details such as the database type, username, password, host, and port.
 
@@ -34,8 +39,4 @@
 
 ```
 docker run -it -p 8080:8080 --e DATABASE_URL=${USER_DATABASE_URL} ./.env oban-exporter
-
-or
-
-docker run -it -p 8080:8080 --env-file ./.env oban-exporter
 ```
