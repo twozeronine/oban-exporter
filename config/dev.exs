@@ -18,7 +18,7 @@ config :oban_exporter, ObanExporterWeb.Endpoint,
   secret_key_base: "So5QmaOGS4/lBzYqE7ZtFsCH7eg3x+7lRial4EIJ8o2zHgwBcjplQoBy2+LWtMjT",
   watchers: []
 
-config :oban_exporter, ObanExporter.Plug.ObanCustomMetricPlug, poll_rate: 5_000
+config :oban_exporter, poll_rate: 5_000
 
 config :logger, :console, format: "[$level] $message\n"
 
