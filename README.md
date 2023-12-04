@@ -8,10 +8,10 @@
 
 
 <p align="center">
-  <a href="https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml/badge.svg">
+  <a href="https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml">
     <img alt="Build and Test" src="https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml/badge.svg">
   </a>
-  <a href="https://github.com/twozeronine/oban-exporter/actions/workflows/image_build_and_push.yml/badge.svg">
+  <a href="https://github.com/twozeronine/oban-exporter/actions/workflows/build_and_test.yml">
     <img alt="Image build and push" src="https://github.com/twozeronine/oban-exporter/actions/workflows/image_build_and_push.yml/badge.svg">
   </a>
 </p>
