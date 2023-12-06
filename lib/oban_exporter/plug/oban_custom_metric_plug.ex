@@ -30,6 +30,7 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
 
   def start() do
     if Ecto.Adapters.SQL.table_exists?(Repo, Job.__schema__(:source)) do
+      Logger.info("execute success")
       execute()
     else
       Logger.error("table \"oban_jobs\" does not exist")
