@@ -39,14 +39,10 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
   end
 
   defp execute() do
-    Logger.info("get oban job states")
+    Logger.info("Execute metrics through all states defined in the Oban job queue system.")
 
     for state <- Job.states() do
-      Logger.info("get all queues now state: #{state}")
-
       for queue <- Repo.all(from j in Job, group_by: [j.queue], select: j.queue) do
-        Logger.info("get #{state} state #{queue} queue count")
-
         count =
           Repo.aggregate(
             from(j in Job,
@@ -55,7 +51,6 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
             :count
           )
 
-        Logger.info("execute metrics")
         :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
       end
     end
