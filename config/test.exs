@@ -17,8 +17,7 @@ config :oban_exporter, ObanExporterWeb.Endpoint,
 config :logger, level: :warning
 
 config :oban_exporter,
-    poll_rate: 5_000,
-    debug_log: false
-
+  poll_rate: 5_000,
+  debug_log: false
 
 config :phoenix, :plug_init_mode, :runtime
