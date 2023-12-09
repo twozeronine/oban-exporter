@@ -20,7 +20,9 @@ if config_env() == :prod do
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "8080")
 
-  config :oban_exporter, poll_rate: System.get_env("POLL_RATE", "5000") |> String.to_integer()
+  config :oban_exporter,
+    poll_rate: System.get_env("POLL_RATE", "5000") |> String.to_integer(),
+    debug_log: System.get_env("DEBUG_LOG", "false") |> String.to_existing_atom()
 
   config :oban_exporter, ObanExporterWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],

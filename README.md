@@ -27,6 +27,7 @@
 | PORT |  "8080" |
 | POLL_RATE |  5000 |
 | SECRET_KEY_BASE | optional |
+| DEBUG_LOG | false |
 
 </center>
 
@@ -43,6 +44,7 @@
 
 - SECRET_KEY_BASE : 64 characters long, The Secret Key Base is a crucial secret key used in web applications like the Phoenix framework to enhance security and encrypt sensitive information such as session data. It must be securely stored, as its exposure could pose a serious threat to the application's security.
 
+- DEBUG_LOG : Enable logs needed for debugging. If you want to see logs from cloud services or other services you use, enable them
 
 ```
 docker run -it -p 8080:8080 --e DATABASE_URL=${USER_DATABASE_URL} ./.env oban-exporter

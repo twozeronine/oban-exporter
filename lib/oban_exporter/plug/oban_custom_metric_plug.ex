@@ -30,16 +30,16 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
 
   def start() do
     if Ecto.Adapters.SQL.table_exists?(Repo, Job.__schema__(:source)) do
-      Logger.info("table oban jobs exist")
+      debug_log("table oban jobs exist")
       execute()
-      Logger.info("execute success")
+      debug_log("execute success")
     else
       Logger.error("table \"oban_jobs\" does not exist")
     end
   end
 
   defp execute() do
-    Logger.info("Execute metrics through all states defined in the Oban job queue system.")
+    debug_log("Execute metrics through all states defined in the Oban job queue system.")
 
     for state <- Job.states() do
       for queue <- Repo.all(from j in Job, group_by: [j.queue], select: j.queue) do
@@ -56,5 +56,11 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
     end
 
     :ok
+  end
+
+  defp debug_log(log) do
+    if Application.get_env(:oban_exporter, :debug_log, false) do
+      Logger.info(log)
+    end
   end
 end
