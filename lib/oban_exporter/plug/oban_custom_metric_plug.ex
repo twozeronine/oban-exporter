@@ -33,6 +33,7 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
       debug_log("table oban jobs exist")
       execute()
       debug_log("execute success")
+      :ok
     else
       Logger.error("table \"oban_jobs\" does not exist")
     end
@@ -54,8 +55,6 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
         :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
       end
     end
-
-    :ok
   end
 
   defp debug_log(log) do
