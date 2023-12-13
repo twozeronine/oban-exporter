@@ -42,8 +42,8 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
   defp execute() do
     debug_log("Execute metrics through all states defined in the Oban job queue system.")
 
-    for state <- Job.states() do
-      for queue <- Repo.all(from j in Job, group_by: [j.queue], select: j.queue) do
+    Enum.flat_map(Job.states(), fn state ->
+      Enum.map(Repo.all(from j in Job, group_by: [j.queue], select: j.queue), fn queue ->
         count =
           Repo.aggregate(
             from(j in Job,
@@ -53,7 +53,17 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
           )
 
         :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
-      end
+        %{queue: queue, count: count, state: state}
+      end)
+    end)
+    |> user_custom_func()
+  end
+
+  defp user_custom_func(metrics) do
+    custom_func = Application.get_env(:oban_exporter, :custom_func, nil)
+
+    if not is_nil(custom_func) do
+      Code.eval_string(custom_func, metrics: metrics)
     end
   end
 

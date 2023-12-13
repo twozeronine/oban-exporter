@@ -18,7 +18,20 @@ config :oban_exporter, ObanExporterWeb.Endpoint,
   secret_key_base: "So5QmaOGS4/lBzYqE7ZtFsCH7eg3x+7lRial4EIJ8o2zHgwBcjplQoBy2+LWtMjT",
   watchers: []
 
-config :oban_exporter, poll_rate: 5_000
+config :oban_exporter,
+  poll_rate: 5_000,
+  custom_func: "
+    sum = Enum.filter(metrics, fn %{queue: queue} -> queue == \"work\" end)
+    |> Enum.reduce(0, fn %{count: count, state: state}, acc ->
+      if state == :executing or state == :available do
+        acc + count
+      else
+        acc
+      end
+    end)
+
+    :telemetry.execute([:oban, :job, :count], %{count: sum}, %{queue: \"work\", state: \"sum_executing_available\"})
+  "
 
 config :logger, :console, format: "[$level] $message\n"
 
