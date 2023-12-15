@@ -55,6 +55,26 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
         :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
       end
     end
+
+    custom_metric()
+  end
+
+  defp custom_metric() do
+    custom_metrics = Application.get_env(:oban_exporter, ObanCustomMetricPlug, nil)
+
+    if not is_nil(custom_metrics) do
+      [queue: queue, states: states, aggregate: aggregate] = custom_metrics
+
+      filter_same_states =
+        for state <- states do
+          dynamic([j], j.state == ^state)
+        end
+
+      Job
+      |> where(^filter_same_states)
+      |> where([j], j.queue == ^queue)
+      |> Repo.aggregate(aggregate)
+    end
   end
 
   defp debug_log(log) do
