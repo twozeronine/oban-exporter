@@ -31,7 +31,9 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
   def start() do
     if Ecto.Adapters.SQL.table_exists?(Repo, Job.__schema__(:source)) do
       debug_log("table oban jobs exist")
-      execute()
+      metrics = get_metrics()
+      execute(metrics)
+      custom_execute(metrics)
       debug_log("execute success")
       :ok
     else
@@ -39,9 +41,7 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
     end
   end
 
-  defp execute() do
-    debug_log("Execute metrics through all states defined in the Oban job queue system.")
-
+  defp get_metrics() do
     Enum.flat_map(Job.states(), fn state ->
       Enum.map(Repo.all(from j in Job, group_by: [j.queue], select: j.queue), fn queue ->
         count =
@@ -52,18 +52,24 @@ defmodule ObanExporter.Plug.ObanCustomMetricPlug do
             :count
           )
 
-        :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
         %{queue: queue, count: count, state: state}
       end)
     end)
-    |> user_custom_func()
   end
 
-  defp user_custom_func(metrics) do
-    custom_func = Application.get_env(:oban_exporter, :custom_func, nil)
+  defp execute(metrics) do
+    debug_log("Execute metrics through all states defined in the Oban job queue system.")
 
-    if not is_nil(custom_func) do
-      Code.eval_string(custom_func, metrics: metrics)
+    for %{queue: queue, count: count, state: state} <- metrics do
+      :telemetry.execute(@oban_job_event, %{count: count}, %{queue: queue, state: state})
+    end
+  end
+
+  defp custom_execute(metrics) do
+    custom_execute = Application.get_env(:oban_exporter, :custom_execute, nil)
+
+    if not is_nil(custom_execute) do
+      Code.eval_string(custom_execute, metrics: metrics)
     end
   end
 

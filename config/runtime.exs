@@ -22,7 +22,8 @@ if config_env() == :prod do
 
   config :oban_exporter,
     poll_rate: System.get_env("POLL_RATE", "5000") |> String.to_integer(),
-    debug_log: System.get_env("DEBUG_LOG", "false") |> String.to_existing_atom()
+    debug_log: System.get_env("DEBUG_LOG", "false") |> String.to_existing_atom(),
+    custom_execute: System.get_env("CUSTOM_EXECUTE", "nil") |> String.to_existing_atom()
 
   config :oban_exporter, ObanExporterWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],

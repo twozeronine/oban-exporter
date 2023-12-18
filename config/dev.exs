@@ -20,7 +20,7 @@ config :oban_exporter, ObanExporterWeb.Endpoint,
 
 config :oban_exporter,
   poll_rate: 5_000,
-  custom_func: "
+  custom_execute: "
     sum = Enum.filter(metrics, fn %{queue: queue} -> queue == \"work\" end)
     |> Enum.reduce(0, fn %{count: count, state: state}, acc ->
       if state == :executing or state == :available do

@@ -57,3 +57,33 @@ After running the image, you can access ```${OBAN_EXPORTER_ENDPOINT}/metrics``` 
 Example Image)
 
 ![image](https://github.com/twozeronine/oban-exporter/assets/67315288/210c5e84-3741-493d-8712-7608a6199610)
+
+### Custom Execute
+
+You can use custom execute
+
+- CUSTOM_EXECUTE : custom execute takes metrics and lets you use whatever metrics you want.
+
+Example)
+
+```elixir
+    # metrics are metric map %{queue: queue, count: count, state: state}
+    # queue is queue name
+    # count is job's count
+    # state is Oban.Jobs.state [:available, :retryable, :cancelled, :executing, :discarded, :completed, :scheduled]
+
+  You can insert custom execute
+
+  custom_execute: "
+    sum = Enum.filter(metrics, fn %{queue: queue} -> queue == \"work\" end)
+    |> Enum.reduce(0, fn %{count: count, state: state}, acc ->
+      if state == :executing or state == :available do
+        acc + count
+      else
+        acc
+      end
+    end)
+
+    :telemetry.execute([:oban, :job, :count], %{count: sum}, %{queue: \"work\", state: \"sum_executing_available\"})
+  "
+```
